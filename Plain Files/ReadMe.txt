@@ -20,7 +20,10 @@ It allows you to:
 
 How to use the program
 ----------------------
-1. Make sure Python is installed with the required libraries (PyVista, NumPy, PyYAML).
+1. Install Python 3.10 and the required libraries with:
+
+   python -m pip install -r requirements.txt
+
 2. Open the file "User Input.yaml". This is where you control everything the
    program does.
 3. Edit parameters in User Input.yaml to set the lattice, dopants, overlays,

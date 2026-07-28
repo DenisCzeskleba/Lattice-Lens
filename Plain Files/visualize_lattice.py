@@ -48,6 +48,29 @@ except Exception:
 # --- Green-arrow / default config support ---
 CONFIG_OVERRIDE: Optional[str] = None
 DEFAULT_CONFIG_BASENAME = "User Input.yaml"
+WELDCRAFT_READY_FILE_ENV_VAR = "WELDCRAFT_STARTUP_READY_FILE"
+
+
+def runtime_directory() -> Path:
+    """Return the directory containing the script or packaged executable."""
+
+    if getattr(sys, "frozen", False):
+        return Path(sys.executable).resolve().parent
+    return Path(__file__).resolve().parent
+
+
+def mark_weldcraft_startup_ready() -> bool:
+    """Complete the optional WeldCraft launcher handshake without GUI dependencies."""
+
+    ready_file = os.getenv(WELDCRAFT_READY_FILE_ENV_VAR, "").strip()
+    if not ready_file:
+        return False
+
+    try:
+        Path(ready_file).touch()
+    except OSError:
+        return False
+    return True
 
 
 def guess_default_config() -> Optional[str]:
@@ -58,7 +81,7 @@ Search likely locations/env var for a default config file path.
     if CONFIG_OVERRIDE:
         p = Path(CONFIG_OVERRIDE)
         if not p.is_absolute():
-            for base in (Path.cwd(), Path(__file__).parent):
+            for base in (Path.cwd(), runtime_directory()):
                 cand = base / CONFIG_OVERRIDE
                 if cand.exists():
                     return str(cand)
@@ -70,7 +93,7 @@ Search likely locations/env var for a default config file path.
         return env
 
     for name in ("User Input.yaml", "config.yml", "lattice.yaml", "lattice.yml"):
-        for base in (Path.cwd(), Path(__file__).parent):
+        for base in (Path.cwd(), runtime_directory()):
             cand = base / name
             if cand.exists():
                 return str(cand)
@@ -1509,6 +1532,7 @@ Assemble scene, choose render path, handle overlay/picking, and show/export.
         os.makedirs(os.path.dirname(screenshot) or ".", exist_ok=True)
         pl.show(screenshot=screenshot, auto_close=True)
     elif not no_show:
+        mark_weldcraft_startup_ready()
         pl.show()
 
 
@@ -1530,7 +1554,7 @@ Print a human-readable summary of the current run.
     print("----- Lattice Viewer -----")
     print(f"config:        {config_path or '(built-in defaults)'}")
     print(f"lattice:       {cfg.lattice} | a = {cfg.a} nm | r = {cfg.r} nm")
-    print(f"size (cells):  {cfg.Nx} x {cfg.Ny} x {cfg.Nz}  (target_atoms ≥ {cfg.target_atoms})")
+    print(f"size (cells):  {cfg.Nx} x {cfg.Ny} x {cfg.Nz}  (target_atoms >= {cfg.target_atoms})")
     print(f"base radius:   {cfg.base_radius}, color: {cfg.base_color}")
     print(f"dopants:       {[d.name for d in cfg.dopants if d.positions] or 'none'}")
     print(f"render_mode:   {cfg.render_mode}")

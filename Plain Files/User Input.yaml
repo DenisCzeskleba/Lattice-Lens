@@ -1,6 +1,6 @@
 # Physical sizing (only knobs you really need)
 lattice: "BCC"     # SC (Simple Cubic) | BCC | FCC   # Lattice type: 'Simple Cubic' | 'BCC' | 'FCC'
-target_atoms: 1   # 1_000_000 for ppm visualization / DEMO-MODE: SC: <=8, BCC: <=9, FCC: <=14   # Approximate total atoms, determines cell counts (Nx,Ny,Nz)
+target_atoms: 900000   # 1_000_000 for ppm visualization / DEMO-MODE: SC: <=8, BCC: <=9, FCC: <=14   # Approximate total atoms, determines cell counts (Nx,Ny,Nz)
 r: 0.124                    # nm  (Fe atomic radius @ RT; adjust if desired)   # Atomic radius of Fe (nm); sets lattice constant 'a'
 base_radius_scale: 0.5     # Atom visually smaller than its radius good default: 0.4
 base_color: "#555555"       # Color of the base atoms #555555 is grey   # Color of base lattice (Fe)
