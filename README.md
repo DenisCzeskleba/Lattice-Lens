@@ -2,7 +2,7 @@
 
 Open-Source repository for the offline version (.exe and raw python code) of [czeskleba.com/visualizer](https://czeskleba.com/visualizer/).
 
-<img src="assets/Unbenannt.PNG" alt="BCC lattice" width="49%"> <img src="assets/Unbenannt2.PNG" alt="1 million atoms" width="49%">
+<img src="Overview Image.png" width="100%">
 
 ## License
 
