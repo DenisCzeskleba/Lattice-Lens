@@ -2,7 +2,7 @@
 
 Open-Source repository for the offline version (.exe and raw python code) of [czeskleba.com/visualizer](https://czeskleba.com/visualizer/).
 
-<img src="assets/Overview%20Image.png" width="100%">
+<img src="assets/Overview%20Image.png" width="80">
 
 ## License
 
