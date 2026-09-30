@@ -1,5 +1,5 @@
-ReadMe - WeldCraft P5 Lattice Visualizer
-=======================================
+ReadMe - WeldCraft P5 Lattice Lens
+==================================
 
 What this program does
 ----------------------
@@ -14,7 +14,7 @@ How to use the application
 
    python -m pip install -r requirements.txt
 
-2. Open the WeldCraft launcher and select Lattice Visualizer.
+2. Open the WeldCraft launcher and select Lattice Lens.
 3. Configure the floating toolbox.
 4. Settings are saved immediately to the fully commented `config.py`.
 5. Use Open Display to open the separate PyVista display window. The button is

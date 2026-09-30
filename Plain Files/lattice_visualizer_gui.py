@@ -1,4 +1,4 @@
-"""PyQt5 floating toolbox for the WeldCraft P5 Lattice Visualizer."""
+"""PyQt5 floating toolbox for WeldCraft P5 Lattice Lens."""
 
 from __future__ import annotations
 
@@ -11,6 +11,13 @@ import tempfile
 from pathlib import Path
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+
+REPO_ROOT = Path(__file__).resolve().parent.parent
+SHARED_RESOURCES_DIR = REPO_ROOT / "Resources"
+if SHARED_RESOURCES_DIR.exists() and str(SHARED_RESOURCES_DIR) not in sys.path:
+    sys.path.insert(0, str(SHARED_RESOURCES_DIR))
+
+from Common.weldcraft_theme import apply_theme, set_bam_logo
 
 from visualize_lattice import (
     Config,
@@ -25,7 +32,9 @@ from visualize_lattice import (
 )
 
 
-APP_NAME = "WeldCraft - Lattice Visualizer"
+APP_NAME = "WeldCraft - Lattice Lens"
+# Keep the established namespace so existing users retain their saved UI state.
+SETTINGS_APP_ID = "P5_Lattice_Visualizer"
 WORKSPACE_PYTHON = Path(r"F:\99_Virtual-Environments\02_WeldCraft\Scripts\python.exe")
 READY_FILE_ENV_VAR = "WELDCRAFT_STARTUP_READY_FILE"
 
@@ -280,7 +289,7 @@ def renderer_command():
     """Return the renderer program and fixed arguments for source/frozen use."""
 
     if getattr(sys, "frozen", False):
-        renderer = Path(sys.executable).with_name("visualize_lattice_renderer.exe")
+        renderer = Path(sys.executable).with_name("Lattice Lens Renderer.exe")
         return str(renderer), []
     python = str(WORKSPACE_PYTHON if WORKSPACE_PYTHON.exists() else sys.executable)
     script = str(Path(__file__).resolve().with_name("visualize_lattice.py"))
@@ -389,8 +398,8 @@ class Toolbox(QtWidgets.QMainWindow):
     def _build_ui(self):
         central = QtWidgets.QWidget(self)
         root = QtWidgets.QVBoxLayout(central)
-        root.setContentsMargins(10, 10, 10, 10)
-        root.setSpacing(8)
+        root.setContentsMargins(14, 14, 14, 12)
+        root.setSpacing(10)
 
         header = QtWidgets.QHBoxLayout()
         header.setContentsMargins(4, 2, 8, 4)
@@ -399,16 +408,17 @@ class Toolbox(QtWidgets.QMainWindow):
         logo.setObjectName("bamLogo")
         logo_path = self._resource_image("BAM Logo.png")
         if logo_path:
-            pixmap = QtGui.QPixmap(str(logo_path))
-            logo.setPixmap(pixmap.scaled(124, 48, QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
+            set_bam_logo(logo, QtGui.QPixmap(str(logo_path)), height=42)
             logo.setToolTip("Bundesanstalt für Materialforschung und -prüfung")
         header.addWidget(logo, 0, QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         header.addSpacing(18)
         heading = QtWidgets.QVBoxLayout()
-        title = QtWidgets.QLabel("Lattice Visualizer Toolbox")
+        title = QtWidgets.QLabel("Lattice Lens Toolbox")
         title.setObjectName("titleLabel")
+        title.setProperty("role", "pageTitle")
         subtitle = QtWidgets.QLabel("Settings are saved automatically. Changes are applied to the display as they are ready.")
         subtitle.setObjectName("subtitleLabel")
+        subtitle.setProperty("role", "subtitle")
         subtitle.setWordWrap(True)
         heading.addWidget(title)
         heading.addWidget(subtitle)
@@ -439,16 +449,20 @@ class Toolbox(QtWidgets.QMainWindow):
         actions = QtWidgets.QHBoxLayout()
         self.status_label = QtWidgets.QLabel("")
         self.status_label.setObjectName("statusLabel")
+        self.status_label.setProperty("role", "muted")
         actions.addWidget(self.status_label, 1)
         self.restore_button = QtWidgets.QPushButton("Restore Defaults")
+        self.restore_button.setProperty("role", "danger")
         self.restore_button.setToolTip("Restore every setting to the documented starting values.")
         self.restore_button.clicked.connect(self._restore_defaults)
         actions.addWidget(self.restore_button)
         self.close_display_button = QtWidgets.QPushButton("Close Display")
+        self.close_display_button.setProperty("role", "ghost")
         self.close_display_button.setToolTip("Close the lattice display while keeping this toolbox open.")
         self.close_display_button.clicked.connect(self._close_renderer)
         actions.addWidget(self.close_display_button)
         self.render_button = QtWidgets.QPushButton("Open Display")
+        self.render_button.setProperty("role", "accent")
         self.render_button.setToolTip(
             "Open the lattice display, or apply all current settings if it is already open."
         )
@@ -459,18 +473,6 @@ class Toolbox(QtWidgets.QMainWindow):
         self._sync_renderer_controls()
 
         self.setCentralWidget(central)
-        self.setStyleSheet(
-            """
-            QWidget { font-size: 10pt; }
-            #titleLabel { font-size: 18pt; font-weight: 600; color: #000000; }
-            #subtitleLabel { color: #687789; }
-            #statusLabel { color: #4f6070; padding-left: 4px; }
-            QGroupBox { font-weight: 600; margin-top: 8px; }
-            QGroupBox::title { subcontrol-origin: margin; left: 8px; padding: 0 4px; }
-            QTabWidget::pane { border: 1px solid #c6ced8; }
-            QPushButton { padding: 6px 12px; }
-            """
-        )
 
     def _sync_renderer_controls(self):
         state = self.renderer.state()
@@ -1568,7 +1570,7 @@ class Toolbox(QtWidgets.QMainWindow):
         QtWidgets.QMessageBox.critical(self, "Display failed", summary)
 
     def _restore_ui_state(self):
-        settings = QtCore.QSettings("WeldCraft", "P5_Lattice_Visualizer")
+        settings = QtCore.QSettings("WeldCraft", SETTINGS_APP_ID)
         geometry = settings.value("toolbox_geometry")
         if geometry is not None:
             self.restoreGeometry(geometry)
@@ -1582,7 +1584,7 @@ class Toolbox(QtWidgets.QMainWindow):
         self.tabs.setCurrentIndex(int(settings.value("selected_tab", 0)) if advanced else 0)
 
     def closeEvent(self, event):
-        settings = QtCore.QSettings("WeldCraft", "P5_Lattice_Visualizer")
+        settings = QtCore.QSettings("WeldCraft", SETTINGS_APP_ID)
         settings.setValue("toolbox_geometry", self.saveGeometry())
         settings.setValue("selected_tab", self.tabs.currentIndex())
         settings.setValue("advanced_options", self.advanced_toggle.isChecked())
@@ -1604,6 +1606,7 @@ def main():
     app = QtWidgets.QApplication(sys.argv)
     app.setApplicationName(APP_NAME)
     app.setOrganizationName("WeldCraft")
+    apply_theme(app)
     window = Toolbox()
     window.show()
     return app.exec_()

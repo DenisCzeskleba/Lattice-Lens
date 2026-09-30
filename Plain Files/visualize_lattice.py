@@ -1,5 +1,5 @@
 """
-Lattice Visualizer — SC/BCC/FCC with dopants (PyVista/VTK)
+Lattice Lens — SC/BCC/FCC with dopants (PyVista/VTK)
 
 This script builds crystalline lattices at scale, optionally places dopants
 (substitutional/interstitial), and renders them efficiently using GPU-instanced
@@ -2848,7 +2848,7 @@ def parse_args():
 Define/parse command-line arguments for the viewer.
     """
 
-    p = argparse.ArgumentParser(description="Simple-cubic lattice visualizer (PyVista) with config + export")
+    p = argparse.ArgumentParser(description="Lattice Lens crystal visualizer (PyVista) with config + export")
     p.add_argument("--config", type=str, default=None, help="Path to a Python or JSON config override")
     p.add_argument("--dump-config", type=str, default=None, help="Write current config to a documented .py or .json file")
     p.add_argument("--export-dir", type=str, default=None, help="Directory to save base/species meshes as .vtp")

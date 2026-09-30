@@ -1,4 +1,4 @@
-"""Documented default configuration for the WeldCraft P5 Lattice Visualizer.
+"""Documented default configuration for WeldCraft P5 Lattice Lens.
 
 The GUI copies this documented shape into the local ``config.py`` and updates
 values in-place through the renderer's atomic configuration writer.  Keep the

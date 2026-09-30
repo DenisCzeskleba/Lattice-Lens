@@ -1,15 +1,19 @@
-# Lattice Visualizer ![WIP Badge](https://img.shields.io/badge/status-WIP-yellow.svg) <a href="https://www.buymeacoffee.com/DenisCzeskleba"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" height="20px"></a>
+# Lattice Lens ![WIP Badge](https://img.shields.io/badge/status-WIP-yellow.svg) <a href="https://doi.org/10.5281/zenodo.21639919"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.21639919.svg" alt="DOI"></a> <a href="https://www.buymeacoffee.com/DenisCzeskleba"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" height="20px"></a>
 
-Open-Source repository for the offline version (.exe and raw python code) of [czeskleba.com/visualizer](https://czeskleba.com/visualizer/).
+Open-source repository for the standalone Windows and Python editions of [Lattice Lens](https://czeskleba.com/lattice-lens/).
 
 <img src="assets/Overview%20Image.png" width="80%">
 
+The actively maintained source lives in WeldCraft's `P5_Lattice Lens` module. This repository provides the standalone source bundle and packaged desktop releases.
+
 ## License
 
-This project is licensed under the Creative Commons Attribution 4.0 International License (CC BY 4.0).  
-You are free to use, modify, distribute, or even commercialize it under that license.
+This project is licensed under the MIT License.
 
-So feel free to use it which ever way you like, expand on it, change it, make it your own. 
-But if you found it helpful in any way, I'd love a citation, or a firm nod in my direction.
+You are free to use, modify, distribute, and sublicense it under that license.
 
 For more information, see the [LICENSE](LICENSE) file.
+
+## Citation
+
+If you use Lattice Lens in your work, please cite the specific version through the [Zenodo record](https://doi.org/10.5281/zenodo.21639919).
