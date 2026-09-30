@@ -1,4 +1,4 @@
-"""PyQt5 floating toolbox for WeldCraft P5 Lattice Lens."""
+"""PyQt5 floating toolbox for WeldCraft Lattice Lens."""
 
 from __future__ import annotations
 

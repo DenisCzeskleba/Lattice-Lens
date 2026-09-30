@@ -1,10 +1,11 @@
-ReadMe - WeldCraft P5 Lattice Lens
-==================================
+ReadMe - WeldCraft Lattice Lens
+===============================
 
 What this program does
 ----------------------
-P5 visualizes Simple Cubic (SC), Body-Centered Cubic (BCC), and Face-Centered
-Cubic (FCC) lattices. It supports substitutional and interstitial dopants,
+Lattice Lens visualizes Simple Cubic (SC), Body-Centered Cubic (BCC), and
+Face-Centered Cubic (FCC) lattices. It supports substitutional and interstitial
+dopants,
 single-cell teaching views, very large atom counts, unit-cell overlays,
 Hydrogen picking, screenshots, and mesh export.
 

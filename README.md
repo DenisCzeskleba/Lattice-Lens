@@ -4,7 +4,7 @@ Open-source repository for the standalone Windows and Python editions of [Lattic
 
 <img src="assets/Overview%20Image.png" width="80%">
 
-The actively maintained source lives in WeldCraft's `P5_Lattice Lens` module. This repository provides the standalone source bundle and packaged desktop releases.
+The actively maintained source lives in the WeldCraft main software suite. This repository provides the standalone source bundle and packaged desktop releases.
 
 ## License
 
